@@ -8,20 +8,78 @@
 	import PassengerDropdown from "@/components/ui/PassengerDropdown"
 	import CustomButton from "@/components/ui/CustomButton"
 	import LineArrowIcon from "@/components/icons/LineArrowIcon"
-	import { reactive } from "vue";
+	import { reactive, ref } from "vue";
+	import { useOrderStore } from "@/stores";
+	import { DropdownItem, PassengerResult } from "../../types";
 
 	const props = defineProps<{
 		step: number
+		isDisabled: boolean
 	}>()
 
 	const info = reactive({
-		notes: null
+		notes: "",
+		departure_date: "",
+		departure_time: "",
+		is_pm: true,
+		pickup_location_id: 0,
+		drop_off_location_id: 0,
+		car_type_id: 0,
+		adults: 0,
+		children: 0,
 	})
 
-	const emit = defineEmits(['save'])
+	const items = ref([
+		{id: 1, name: "Sedan"},
+		{id: 2, name: "Minivan"},
+		{id: 3, name: "Luxury sedan"},
+	])
+
+	const store = useOrderStore();
+
+	const emit = defineEmits(['save', 'updateInfo'])
 
 	const save = () => {
-		emit('save', 323232)
+		emit('save')
+	}
+	const updateInfo = () => {
+		emit('updateInfo', info)
+	}
+
+	const selectPickupLocation = (item: DropdownItem) => {
+		info.pickup_location_id = item.id
+		updateInfo()
+	}
+
+	const selectDropOffLocation = (item: DropdownItem) => {
+		info.drop_off_location_id = item.id
+		updateInfo()
+	}
+
+	const selectCarType = (item: DropdownItem) => {
+		info.car_type_id = item.id
+		updateInfo()
+	}
+
+	const updatePassengers = (item: PassengerResult) => {
+		info.adults = item.adults
+		info.children = item.children
+		updateInfo()
+	}
+
+	const updateDate = (value: string) => {
+		info.departure_date = value;
+		updateInfo()
+	}
+
+	const updateTime = (value: string) => {
+		info.departure_time = value;
+		updateInfo()
+	}
+
+	const updateSwitchTime = (value: boolean) => {
+		info.is_pm = value;
+		updateInfo()
 	}
 </script>
 <template>
@@ -30,18 +88,22 @@
 		<template #body>
 			<div class="body-card" :class="{'step-2': step === 2}">
 				<div>
-					<CustomLocations class="body-card__locations"/>
+					<CustomLocations @selectPickupLocation="selectPickupLocation" @selectDropOffLocation="selectDropOffLocation"
+													 class="body-card__locations"/>
 				</div>
 				<div>
-					<CustomDateTime class="body-card__datetime"/>
+					<CustomDateTime class="body-card__datetime" @updateDate="updateDate" @updateTime="updateTime"
+													@updateSwitchTime="updateSwitchTime"/>
 					<p class="text-gray text-info">Not less than 48 hours from the current date</p>
 				</div>
 				<div class="body-card__row">
-					<CustomDropdown label="Car type *" id="car_type" name="car_type" class="w-100"/>
-					<PassengerDropdown label="Number of the passengers*" class="w-100"/>
+					<CustomDropdown @select="selectCarType" :items="items" label="Car type *" id="car_type" name="car_type"
+													class="w-100"/>
+					<PassengerDropdown @update="updatePassengers" label="Number of the passengers*" class="w-100"/>
 				</div>
 				<div class="body-card__btn" v-if="step === 1">
-					<CustomButton text="Search a trip" :with-icon="true" class="button" @click.prevent.stop="save">
+					<CustomButton text="Search a trip" :with-icon="true" class="button" :is-disabled="isDisabled"
+												@click.prevent.stop="save">
 						<template #icon>
 							<LineArrowIcon/>
 						</template>

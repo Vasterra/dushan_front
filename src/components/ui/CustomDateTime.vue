@@ -9,10 +9,13 @@
 	const isOpenTime = ref(false)
 	const component = ref(null)
 
+	/* eslint-disable */
 	const changeOpen = (value: boolean) => {
 		isOpenCalendar.value = value
 		changeIsActive()
 	}
+
+	const emit = defineEmits(['updateDate', 'updateTime', 'updateSwitchTime'])
 
 	const openTime = () => {
 		isOpenTime.value = isOpenTime.value ? isOpenTime.value : true
@@ -23,15 +26,28 @@
 		isActive.value = isOpenTime.value || isOpenCalendar.value;
 	}
 
+	const updateDate = (date: string) => {
+		emit('updateDate', date);
+	}
+
+	const updateTime = (time: string) => {
+		emit('updateTime', time);
+	}
+
+	const updateSwitchTime = (value: boolean) => {
+		emit('updateSwitchTime', value);
+	}
+
 	onClickOutside(component, () => {
 		isActive.value = false
 	})
 </script>
 <template>
 	<div class="date-time" :class="{ isActive }" ref="component">
-		<CustomCalendar class="date-time__item" @changeOpen="changeOpen"/>
+		<CustomCalendar class="date-time__item" @changeOpen="changeOpen" @updateDate="updateDate"/>
 		<div class="date-time__separator"></div>
-		<DepartureTime class="date-time__item" @click="openTime"/>
+		<DepartureTime class="date-time__item" @click="openTime" @updateTime="updateTime"
+									 @updateSwitchTime="updateSwitchTime"/>
 	</div>
 </template>
 <style lang="scss" scoped>

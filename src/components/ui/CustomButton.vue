@@ -30,7 +30,7 @@
 			cursor: default;
 
 			span {
-				&.text {
+				&.text, &.icon {
 					opacity: 0.5;
 				}
 			}

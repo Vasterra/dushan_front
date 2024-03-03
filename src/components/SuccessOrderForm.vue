@@ -98,7 +98,7 @@
 		<div class="success-order__card">
 			<p>Driver’s contacts will be sent within 24 hours via whatsapp</p>
 		</div>
-		<CustomButton text="Go home" class="button"/>
+		<CustomButton text="Go home" class="button" @click="emit('home')"/>
 	</div>
 </template>
 <style lang="scss" scoped>
@@ -132,14 +132,10 @@
 				max-width: 208px;
 				@include font(success-order-title-mobile);
 				@include breakpoint(xs) {
-
 					max-width: 100%;
 					@include font(success-order-title);
-
-
 				}
 			}
-
 		}
 
 		&__card {

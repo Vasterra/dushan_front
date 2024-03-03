@@ -15,6 +15,13 @@
 
 	const value = ref('')
 	const valueSwitch = ref(false)
+
+
+	const items = ref([
+		{id: 1, name: "Sedan"},
+		{id: 2, name: "Minivan"},
+		{id: 3, name: "Luxury sedan"},
+	])
 </script>
 <template>
 	<div style="margin: 20px; display: flex; flex-direction: column; gap: 20px">
@@ -28,8 +35,9 @@
 		<CustomInput label="Custom notes" id="custom_notes" name="custom_notes" v-model="value" :is-textarea="true"/>
 		<PassengerDropdown label="Number of the passengers*"/>
 		<CustomLocations/>
-		<CustomDropdown label="Car type *" id="car_type" name="car_type"/>
-		<CustomDropdown label="Car type *" id="car_type" name="car_type" :is-error="true" error-message="Required field"/>
+		<CustomDropdown :items="items" label="Car type *" id="car_type" name="car_type"/>
+		<CustomDropdown :items="items" label="Car type *" id="car_type" name="car_type" :is-error="true"
+										error-message="Required field"/>
 		<AdditionalStopCard/>
 		<CustomButton text="Pay and Complete"/>
 		<CustomButton text="Disabled" :is-disabled="true"/>

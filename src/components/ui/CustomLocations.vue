@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 	import CustomDropdown from "@/components/ui/CustomDropdown"
 	import { ref } from "vue";
+	import { DropdownItem } from "../../../types";
 
 	const isOpenPickup = ref(false);
 	const isOpenDropOff = ref(false);
@@ -13,15 +14,43 @@
 		isOpenDropOff.value = value;
 		isOpenPickup.value = false;
 	}
+	/* eslint-disable */
+	const emit = defineEmits(['selectPickupLocation', 'selectDropOffLocation'])
+
+	const pickupLocations = ref([
+		{id: 1, name: "Vienna"},
+		{id: 2, name: "Budapest"},
+		{id: 3, name: "Prague"},
+		{id: 4, name: "Salzburg"},
+		{id: 5, name: "Munich"},
+	])
+
+	const dropOffLocations = ref([
+		{id: 1, name: "Vienna"},
+		{id: 2, name: "Budapest"},
+		{id: 3, name: "Prague"},
+		{id: 4, name: "Salzburg"},
+		{id: 5, name: "Munich"},
+	])
+
+	const selectPickupLocation = (item: DropdownItem) => {
+		emit('selectPickupLocation', item)
+	}
+
+	const selectDropOffLocation = (item: DropdownItem) => {
+		emit('selectDropOffLocation', item)
+	}
 </script>
 <template>
 	<div class="location-dropdown" :class="{ isOpen: isOpenPickup || isOpenDropOff , isOpenPickup, isOpenDropOff }">
-		<CustomDropdown class="location-dropdown__item" @changeOpen="openPickup"
+		<CustomDropdown @select="selectPickupLocation" :items="pickupLocations" class="location-dropdown__item"
+										@changeOpen="openPickup"
 										:is-border-transparent="true"
 										label="Pick-up Locations* "
 										id="pick_up" name="pick_up"/>
 		<div class="location-dropdown__separator"></div>
-		<CustomDropdown class="location-dropdown__item" @changeOpen="openDropOff"
+		<CustomDropdown @select="selectDropOffLocation" :items="dropOffLocations" class="location-dropdown__item"
+										@changeOpen="openDropOff"
 										:is-border-transparent="true"
 										label="Drop-off Locations *"
 										id="drop_off" name="drop_off"/>

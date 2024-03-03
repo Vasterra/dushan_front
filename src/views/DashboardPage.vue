@@ -7,23 +7,47 @@
 	import SuccessOrderForm from '@/components/SuccessOrderForm'
 	import CustomButton from "@/components/ui/CustomButton"
 	import AdditionalStopCard from "@/components/AdditionalStopCard"
+	import CustomStripe from "@/components/CustomStripe"
 	import { ref } from "vue";
+	import { useOrderStore } from "@/stores";
 	import { useEventBus } from "@vueuse/core";
+	import { OrderRouteFormType } from "../../types";
 
 	const step = ref(1);
-
+	const store = useOrderStore();
 	const changeBgColor = useEventBus('changeBgColor')
 
-	const saveRouteForm = (data) => {
-		step.value = 2;
-		changeBgColor.emit('white')
+	const updateRouteForm = (data: OrderRouteFormType) => {
+		store.form.pickup_location_id = data.pickup_location_id;
+		store.form.drop_off_location_id = data.drop_off_location_id;
+		store.form.car_type_id = data.car_type_id;
+		store.form.adults = data.adults;
+		store.form.children = data.children;
+		store.form.departure_time = data.departure_time;
+		store.form.departure_date = data.departure_date;
+		store.form.is_pm = data.is_pm;
+		console.log(store.form)
+	}
 
+	const updatePersonalInfo = (data) => {
+		store.form.first_name = data.first_name;
+		store.form.last_name = data.last_name;
+		store.form.email = data.email;
+		store.form.phone = data.phone;
+	}
+
+	const saveRouteForm = () => {
+		if (store.isValidStepFirst) {
+			step.value = 2;
+			changeBgColor.emit('white')
+		}
 	}
 
 	const openStripe = () => {
-		step.value = 4
-
-		changeBgColor.emit('black')
+		if (store.isValidStepSecond) {
+			step.value = 4
+			changeBgColor.emit('black')
+		}
 	}
 </script>
 <template>
@@ -45,16 +69,18 @@
 						<div class="dashboard-page__title">Need a ride?</div>
 						<div class="dashboard-page__desc">Enjoy it, we drive</div>
 					</template>
-					<OrderRouteForm class="OrderRouteForm" @save="saveRouteForm" :step="step"/>
+					<OrderRouteForm :is-disabled="!store.isValidStepFirst" class="OrderRouteForm" @save="saveRouteForm"
+													@updateInfo="updateRouteForm" :step="step"/>
 					<template v-if="step === 2">
-						<OrderPersonalInfoForm/>
+						<OrderPersonalInfoForm @updateInfo="updatePersonalInfo"/>
 						<Card class="card__row">
-							<template #name>Final cost:</template>
+							<template #name>Final cost: {{ store.form.cost ?? "" }}</template>
 							<template #body>
 								<p class="text-gray text-info cost">To see the final cost, you need to fill in all the fields</p>
 							</template>
 						</Card>
-						<CustomButton text="Pay and Complete" @click.stop.prevent="openStripe"/>
+						<CustomButton text="Pay and Complete" :is-disabled="!store.isValidStepSecond"
+													@click.stop.prevent="openStripe"/>
 					</template>
 				</div>
 				<div class="dashboard-page__col" v-if="step === 2">
@@ -71,6 +97,7 @@
 				</div>
 			</template>
 
+			<CustomStripe v-if="step === 3"/>
 			<SuccessOrderForm v-if="step === 4"/>
 		</div>
 	</div>

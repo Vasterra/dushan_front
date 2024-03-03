@@ -4,6 +4,7 @@
 	import CheckIcon from "@/components/icons/CheckIcon.vue"
 	import { ref } from "vue";
 	import { onClickOutside } from "@vueuse/core"
+	import { DropdownItem } from "../../../types";
 
 	const props = defineProps<{
 		autocomplete?: string
@@ -12,7 +13,8 @@
 		label: string
 		name: string
 		id: string
-		isBorderTransparent?: boolean
+		isBorderTransparent?: boolean,
+		items: DropdownItem[]
 	}>()
 
 	const component = ref(null)
@@ -20,12 +22,6 @@
 	const selected = ref(null)
 
 	const emit = defineEmits(['changeOpen', 'select'])
-
-	const items = ref([
-		{id: 1, name: "Sedan"},
-		{id: 2, name: "Minivan"},
-		{id: 3, name: "Luxury sedan"},
-	])
 
 	const open = () => {
 		isOpen.value = !isOpen.value
@@ -37,9 +33,10 @@
 		emit('changeOpen', isOpen.value)
 	})
 
-	const selectItem = (item) => {
+	const selectItem = (item: DropdownItem) => {
 		selected.value = item;
 		isOpen.value = false
+		emit('select', item)
 	}
 </script>
 <template>

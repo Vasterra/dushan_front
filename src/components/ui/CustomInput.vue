@@ -120,6 +120,15 @@
 				@include font(input);
 			}
 
+			&:-webkit-autofill,
+			&:-webkit-autofill:hover,
+			&:-webkit-autofill:focus,
+			&:-webkit-autofill:active {
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: $black;
+				transition: background-color 50000s ease-in-out 0s;
+			}
+
 
 			&.border-transparent {
 				border-color: transparent;

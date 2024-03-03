@@ -2,7 +2,7 @@
 	/* eslint-disable */
 	import Card from "@/components/WhiteCard"
 	import CustomInput from "@/components/ui/CustomInput"
-	import { reactive } from "vue";
+	import { reactive, watch } from "vue";
 
 	const info = reactive({
 		first_name: null,
@@ -10,6 +10,11 @@
 		phone: null,
 		email: null,
 	})
+	const emit = defineEmits(['updateInfo'])
+
+	watch(() => info, () => {
+		emit('updateInfo', info)
+	}, {deep: true})
 </script>
 <template>
 	<Card class="card__row">

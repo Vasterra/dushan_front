@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 	/* eslint-disable */
-	import { ref } from "vue";
+	import { ref, watch } from "vue";
 	import CustomInput from "@/components/ui/CustomInput"
 	import CalendarIcon from "@/components/icons/CalendarIcon"
 	import TimesIcon from "@/components/icons/TimesIcon"
@@ -12,7 +12,7 @@
 		visibility: 'click',
 	});
 
-	const emit = defineEmits(['changeOpen'])
+	const emit = defineEmits(['changeOpen', 'updateDate'])
 
 	const openCalendar = () => {
 		isOpen.value = true
@@ -22,15 +22,20 @@
 		isOpen.value = false
 		emit('changeOpen', false);
 	}
+
+	watch(() => date.value, () => {
+		if (date.value) {
+			emit('updateDate', date.value)
+		}
+	})
 </script>
 <template>
 	<div class="custom-calendar">
 		<VDatePicker
 			@popover-did-show="openCalendar"
 			@popover-did-hide="closeCalendar"
-			v-model="date" :popover="popover"
+			v-model.string="date" :popover="popover"
 			:min-date="minDate"
-			:model-config="{ type: 'string', mask: 'YYYY-MM-DD' }"
 			:locale="{ id: 'en', masks: { input: 'MMMM DD, YYYY', weekdays: 'WW' } }">
 			<template #default="{ inputValue, inputEvents }">
 				<div class="input-block">

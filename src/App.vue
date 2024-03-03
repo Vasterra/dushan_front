@@ -62,9 +62,6 @@
 		position: relative;
 		margin: 0 auto;
 		padding: 16px;
-		@include breakpoint(xs) {
-			padding: 0;
-		}
 	}
 
 	.w-100 {

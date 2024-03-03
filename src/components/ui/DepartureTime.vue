@@ -1,10 +1,23 @@
 <script lang="ts" setup>
+	/* eslint-disable */
 	import OtpInput from "@/components/ui/OtpInput"
 	import CustomSwitch from "@/components/ui/CustomSwitch"
-	import { ref } from "vue";
+	import { ref, watch } from "vue";
 
 	const otpValue = ref('0800')
 	const valueSwitch = ref(false)
+
+	const emit = defineEmits(['updateTime', 'updateSwitchTime'])
+
+	watch(() => otpValue.value, () => {
+		if (otpValue.value) {
+			emit('updateTime', otpValue.value)
+		}
+	})
+
+	watch(() => valueSwitch.value, () => {
+		emit('updateSwitchTime', valueSwitch.value)
+	})
 </script>
 <template>
 	<div class="departure-time">
