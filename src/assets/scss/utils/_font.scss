@@ -1,0 +1,11 @@
+@use 'sass:map';
+
+@import '../settings/fonts';
+
+@mixin font($type: regular) {
+  font-size: #{map.get($fonts, $type, 'font-size')};
+  font-family: #{map.get($fonts, $type, 'family')};
+  font-weight: #{map.get($fonts, $type, 'weight')};
+  line-height: #{map.get($fonts, $type, 'height')};
+  font-style: normal;
+}

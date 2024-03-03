@@ -1,0 +1,95 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+$fonts: (
+        main: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 16px,
+                height: 20px,
+        ),
+        button: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 18px,
+                height: 20px,
+        ),
+        button-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 16px,
+                height: 18px,
+        ),
+        input: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 16px,
+                height: 20px,
+        ),
+        input-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 14px,
+                height: 18px,
+        ),
+        input-label: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 16px,
+                height: 20px,
+        ),
+        input-label-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 14px,
+                height: 18px,
+        ),
+        input-label-fill: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 12px,
+                height: 14px,
+        ),
+        input-label-fill-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 10px,
+                height: 12px,
+        ),
+        route-form-title: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 64px,
+                height: 80px,
+        ),
+        route-form-desc: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 24px,
+                height: 32px,
+        ),
+        card-title: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 20px,
+                height: 26px,
+        ),
+        error-text: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 14px,
+                height: 18px,
+        ),
+        additional-stop-name: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 18px,
+                height: 22px,
+        ),
+        additional-stop-name-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 16px,
+                height: 18px,
+        )
+);
