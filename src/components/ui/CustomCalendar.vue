@@ -74,7 +74,8 @@
 	}
 
 	.vc-popover-content-wrapper {
-		width: 388px !important;
+		width: 384px !important;
+		transform: translate3d(-2px, 44px, 0px) !important;
 
 		.vc-popover-content {
 			.vc-popover-content-wrapper:last-of-type {

@@ -13,12 +13,11 @@
 
 	const component = ref(null)
 	const isOpen = ref(false)
-	const selected = ref(true)
 
 	const emit = defineEmits<(e: "update", value: any) => void>()
 
 	const items = ref([
-		{id: 1, name: "Adults", count: 1},
+		{id: 1, name: "Adults", count: 0},
 		{id: 2, name: "Children", count: 0},
 	])
 
@@ -27,21 +26,23 @@
 	}
 
 	const text = computed(() => {
-		return `${items.value[0].count} adults, ${items.value[1].count} children`;
+		return allCount.value > 0 ? `${items.value[0].count} adults, ${items.value[1].count} children` : null;
 	})
 
 	onClickOutside(component, event => {
 		isOpen.value = false
 	})
 
-	const isDisabled = (item: any, isPlus: boolean) => {
-		const allCount = items.value.reduce((tot, arr) => tot + arr.count, 0);
+	const allCount = computed(() => {
+		return items.value.reduce((tot, arr) => tot + arr.count, 0);
+	})
 
+	const isDisabled = (item: any, isPlus: boolean) => {
 		if (item.count === 0 && !isPlus) {
 			return true
 		}
 
-		return allCount >= 8 && isPlus;
+		return allCount.value >= 8 && isPlus;
 	}
 
 	const result = computed(() => {
@@ -59,7 +60,7 @@
 <template>
 	<div>
 		<div class="custom-dropdown" @click="open" :class="{isOpen, isError}" ref="component">
-			<div class="custom-dropdown__title" :class="{selected}">Number of the passengers*</div>
+			<div class="custom-dropdown__title" :class="{selected: text}">Number of the passengers*</div>
 			<div class="custom-dropdown__selected">{{ text }}</div>
 			<div class="custom-dropdown__arrow">
 				<ArrowIcon :direction="isOpen ? 'up' : 'down'" width="16" height="16"/>

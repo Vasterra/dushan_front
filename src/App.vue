@@ -1,3 +1,27 @@
+<script lang="ts" setup>
+	import { useEventBus } from "@vueuse/core";
+	import { onMounted, ref, watch } from "vue";
+
+	const changeBgColor = useEventBus('changeBgColor')
+
+	const isWhite = ref(false)
+
+	watch(() => isWhite.value, () => {
+		if (isWhite.value) {
+			document.getElementsByTagName('body')[0].classList.add('white')
+			document.getElementsByTagName('body')[0].classList.remove('black')
+		} else {
+			document.getElementsByTagName('body')[0].classList.remove('white')
+			document.getElementsByTagName('body')[0].classList.add('black')
+		}
+	})
+
+	onMounted(() => {
+		changeBgColor.on(data => {
+			isWhite.value = data === 'white'
+		})
+	})
+</script>
 <template>
 	<router-view/>
 </template>
@@ -22,12 +46,25 @@
 	}
 
 	body {
-		//background-color: $black;
+		background-color: #0e0d0f;
+
+		&.white {
+			background-color: $gray-bg;
+		}
+
+		&.black {
+			background-color: #0e0d0f;
+		}
 	}
 
 	.wrapper {
 		max-width: 1230px;
+		position: relative;
 		margin: 0 auto;
+		padding: 16px;
+		@include breakpoint(xs) {
+			padding: 0;
+		}
 	}
 
 	.w-100 {

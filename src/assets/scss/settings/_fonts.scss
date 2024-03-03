@@ -62,13 +62,43 @@ $fonts: (
                 font-size: 64px,
                 height: 80px,
         ),
+        route-form-title-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 32px,
+                height: 36px,
+        ),
         route-form-desc: (
                 family: "DM Sans, sans-serif",
                 weight: 400,
                 font-size: 24px,
                 height: 32px,
         ),
+        route-form-desc-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 400,
+                font-size: 14px,
+                height: 18px,
+        ),
         card-title: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 24px,
+                height: 30px,
+        ),
+        card-title-mobile: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 20px,
+                height: 26px,
+        ),
+        success-order-title: (
+                family: "DM Sans, sans-serif",
+                weight: 500,
+                font-size: 28px,
+                height: 34px,
+        ),
+        success-order-title-mobile: (
                 family: "DM Sans, sans-serif",
                 weight: 500,
                 font-size: 20px,

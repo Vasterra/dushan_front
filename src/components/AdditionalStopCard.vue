@@ -46,7 +46,7 @@
 		}
 
 		&__img {
-			max-width: 264px;
+			max-width: 100%;
 			border-radius: 8px;
 			height: 250px;
 			@include breakpoint(xs) {
