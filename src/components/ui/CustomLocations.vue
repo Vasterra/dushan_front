@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 	import CustomDropdown from "@/components/ui/CustomDropdown"
 	import { ref } from "vue";
-	import { DropdownItem } from "../../../types";
+	import { DropdownItem, LocationItem } from "../../../types";
 
 	const isOpenPickup = ref(false);
 	const isOpenDropOff = ref(false);
@@ -17,21 +17,26 @@
 	/* eslint-disable */
 	const emit = defineEmits(['selectPickupLocation', 'selectDropOffLocation'])
 
-	const pickupLocations = ref([
-		{id: 1, name: "Vienna"},
-		{id: 2, name: "Budapest"},
-		{id: 3, name: "Prague"},
-		{id: 4, name: "Salzburg"},
-		{id: 5, name: "Munich"},
-	])
+	// const pickupLocations = ref([
+	// 	{id: 1, name: "Vienna"},
+	// 	{id: 2, name: "Budapest"},
+	// 	{id: 3, name: "Prague"},
+	// 	{id: 4, name: "Salzburg"},
+	// 	{id: 5, name: "Munich"},
+	// ])
+	//
+	// const dropOffLocations = ref([
+	// 	{id: 1, name: "Vienna"},
+	// 	{id: 2, name: "Budapest"},
+	// 	{id: 3, name: "Prague"},
+	// 	{id: 4, name: "Salzburg"},
+	// 	{id: 5, name: "Munich"},
+	// ])
 
-	const dropOffLocations = ref([
-		{id: 1, name: "Vienna"},
-		{id: 2, name: "Budapest"},
-		{id: 3, name: "Prague"},
-		{id: 4, name: "Salzburg"},
-		{id: 5, name: "Munich"},
-	])
+	const props = defineProps<{
+		pickupLocations: LocationItem[]
+		dropOffLocations: LocationItem[]
+	}>()
 
 	const selectPickupLocation = (item: DropdownItem) => {
 		emit('selectPickupLocation', item)

@@ -98,10 +98,9 @@
 <template>
 	<yandex-map
 		v-model="map"
+		class="ymap-class"
 		@initializeOn="mapWasInitializedHandler"
 		:settings="settings"
-		width="100%"
-		height="500px"
 	>
 		<yandex-map-default-scheme-layer/>
 		<yandex-map-default-features-layer/>
@@ -115,13 +114,22 @@
 		</yandex-map-marker>
 	</yandex-map>
 </template>
-<style>
+<style lang="scss">
 	.ymaps3x0--main-engine-container {
 		filter: grayscale(1);
 		-ms-filter: grayscale(1);
 		-webkit-filter: grayscale(1);
 		-moz-filter: grayscale(1);
 		-o-filter: grayscale(1);
+	}
+
+	.ymap-class, .ymaps3x0--map {
+		width: 100% !important;
+		height: 280px !important;
+		@include breakpoint(xs) {
+			height: 460px !important;
+			width: 100% !important;
+		}
 	}
 
 	.marker {

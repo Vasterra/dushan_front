@@ -8,8 +8,8 @@
 	import PassengerDropdown from "@/components/ui/PassengerDropdown"
 	import CustomButton from "@/components/ui/CustomButton"
 	import LineArrowIcon from "@/components/icons/LineArrowIcon"
-	import { reactive, ref } from "vue";
-	import { useOrderStore } from "@/stores";
+	import { onMounted, reactive, ref } from "vue";
+	import { useCarTypeStore, useOrderStore } from "@/stores";
 	import { DropdownItem, PassengerResult } from "../../types";
 
 	const props = defineProps<{
@@ -20,7 +20,7 @@
 	const info = reactive({
 		notes: "",
 		departure_date: "",
-		departure_time: "",
+		departure_time: "0800",
 		is_pm: true,
 		pickup_location_id: 0,
 		drop_off_location_id: 0,
@@ -29,13 +29,8 @@
 		children: 0,
 	})
 
-	const items = ref([
-		{id: 1, name: "Sedan"},
-		{id: 2, name: "Minivan"},
-		{id: 3, name: "Luxury sedan"},
-	])
-
-	const store = useOrderStore();
+	const orderStore = useOrderStore();
+	const carTypeStore = useCarTypeStore();
 
 	const emit = defineEmits(['save', 'updateInfo'])
 
@@ -73,6 +68,7 @@
 	}
 
 	const updateTime = (value: string) => {
+		console.log(value)
 		info.departure_time = value;
 		updateInfo()
 	}
@@ -81,14 +77,22 @@
 		info.is_pm = value;
 		updateInfo()
 	}
+
+	onMounted(() => {
+		orderStore.getLocations()
+		orderStore.getLocationTravels()
+		carTypeStore.getCarTypes()
+	})
 </script>
 <template>
-	<Card class="card__row">
+	<Card class="card__row" :with-title="true">
 		<template #name>Route</template>
 		<template #body>
 			<div class="body-card" :class="{'step-2': step === 2}">
 				<div>
-					<CustomLocations @selectPickupLocation="selectPickupLocation" @selectDropOffLocation="selectDropOffLocation"
+					<CustomLocations :drop-off-locations="orderStore.getDropOffLocations"
+													 :pickup-locations="orderStore.getPickupLocations"
+													 @selectPickupLocation="selectPickupLocation" @selectDropOffLocation="selectDropOffLocation"
 													 class="body-card__locations"/>
 				</div>
 				<div>
@@ -97,7 +101,8 @@
 					<p class="text-gray text-info">Not less than 48 hours from the current date</p>
 				</div>
 				<div class="body-card__row">
-					<CustomDropdown @select="selectCarType" :items="items" label="Car type *" id="car_type" name="car_type"
+					<CustomDropdown @select="selectCarType" :items="carTypeStore.carTypes" label="Car type *" id="car_type"
+													name="car_type"
 													class="w-100"/>
 					<PassengerDropdown @update="updatePassengers" label="Number of the passengers*" class="w-100"/>
 				</div>

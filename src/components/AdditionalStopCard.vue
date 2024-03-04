@@ -2,14 +2,22 @@
 	import PlusIcon from "@/components/icons/PlusIcon.vue"
 	import MinusIcon from "@/components/icons/MinusIcon.vue"
 	import { computed, ref } from "vue";
+	import { AdditionalStopType } from "../../types";
 	/* eslint-disable */
-	const props = defineProps<{}>()
+	const props = defineProps<{
+		item: AdditionalStopType,
+		countPassengers: number
+	}>()
 
 	const isAdded = ref(false);
 
+	const emit = defineEmits(['add', 'remove'])
+
 	const added = () => {
 		isAdded.value = !isAdded.value
+		emit(isAdded.value ? 'add' : 'remove', props.item)
 	}
+
 
 	const colorIcon = computed(() => {
 		return isAdded.value ? '#C4161C' : '#FFFFFF'
@@ -20,14 +28,16 @@
 		<div class="additional-stop__btn change-btn" :class="{ isAdded }" @click.stop.prevent="added">
 			<PlusIcon class="change-btn__icon" color="white" width="12" height="12" v-if="!isAdded"/>
 			<MinusIcon class="change-btn__icon" width="12" height="2" v-else/>
-			<span class="change-btn__text">{{ isAdded ? 'Added' : 'Add for €35,00' }}</span>
+			<span class="change-btn__text">{{
+					isAdded ? 'Added' : `Add for €${countPassengers === 8 ? item.price_for_8_pax : item.price}`
+				}}</span>
 		</div>
 		<div class="additional-stop__img">
 			<img
 				src="~@/assets/images/41f73c87-7469-4bfd-b7c3-851d1ca1498f-stock_376555144_pyty-lednice-chateau-on-summer-day 1.png"
 				alt="bg-image.png">
 		</div>
-		<div class="additional-stop__name">Lednice Chateau</div>
+		<div class="additional-stop__name">{{ item.name }}</div>
 	</div>
 </template>
 <style lang="scss" scoped>

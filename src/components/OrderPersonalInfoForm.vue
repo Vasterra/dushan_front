@@ -17,7 +17,7 @@
 	}, {deep: true})
 </script>
 <template>
-	<Card class="card__row">
+	<Card class="card__row" :with-title="true">
 		<template #name>Personal information</template>
 		<template #body>
 			<div class="body-card">

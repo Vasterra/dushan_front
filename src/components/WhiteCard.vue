@@ -1,10 +1,14 @@
 <script lang="ts" setup>
+	/* eslint-disable */
 
+	const props = defineProps<{
+		withTitle?: boolean
+	}>()
 </script>
 
 <template>
 	<div class="card">
-		<div class="card__title">
+		<div class="card__title" v-if="withTitle">
 			<slot name="name"></slot>
 		</div>
 		<div class="card__body">
@@ -14,7 +18,7 @@
 </template>
 <style lang="scss" scoped>
 	.card {
-		padding: 8px;
+		padding: 12px;
 		background-color: $white;
 		border-radius: 12px;
 		@include breakpoint(xs) {

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 	/* eslint-disable */
 	import { ref, reactive } from 'vue';
 
@@ -99,7 +98,6 @@
 				type="text"
 				class="digit-box"
 				v-model="digits[ind]"
-				:autofocus="ind === 0"
 				:placeholder="placeholders[ind]"
 				maxlength="1"
 				@keydown="handleKeyDown($event, ind)"

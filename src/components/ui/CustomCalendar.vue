@@ -9,7 +9,7 @@
 	const isOpen = ref(false)
 	const minDate = ref(new Date())
 	const popover = ref({
-		visibility: 'click',
+		visibility: 'focus',
 	});
 
 	const emit = defineEmits(['changeOpen', 'updateDate'])
@@ -47,7 +47,7 @@
 						v-model="date"
 						:is-border-transparent="true"
 						v-on="inputEvents"/>
-					<CalendarIcon class="input-block__icon" v-if="!date"/>
+					<CalendarIcon class="input-block__icon calendar" v-if="!date"/>
 					<TimesIcon class="input-block__icon" v-else @click="date = null"/>
 				</div>
 
@@ -64,11 +64,24 @@
 			width: 100%;
 
 			&__icon {
-				position: absolute;
 				cursor: pointer;
-				right: 8px;
+				position: absolute;
+				right: 20px;
 				top: 0;
 				transform: translate(0, 100%);
+
+				&.calendar {
+					right: 15px;
+				}
+
+				@include breakpoint(xs) {
+					right: 8px;
+					top: 0;
+					transform: translate(0, 100%);
+					&.calendar {
+						right: 8px;
+					}
+				}
 			}
 		}
 	}
