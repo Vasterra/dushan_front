@@ -24,7 +24,7 @@ export const useOrderStore = defineStore("orders", {
       pickup_location_id: null,
       drop_off_location_id: null,
       car_type_id: null,
-      is_pm: true,
+      is_pm: false,
       stops: [],
       location_travel_id: null,
     },
@@ -124,7 +124,10 @@ export const useOrderStore = defineStore("orders", {
       )
     },
     storeRequest(state) {
-      return { ...state.form, ...{ stops_id: state.form.stops.map((x: AdditionalStopType) => x.id) ?? [] } }
+      return {
+        ...state.form,
+        ...{ stops_id: state.form.stops.map((x: AdditionalStopType) => x.id) ?? [] },
+      }
     },
   },
   actions: {

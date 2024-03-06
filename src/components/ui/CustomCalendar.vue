@@ -35,6 +35,7 @@
 			@popover-did-show="openCalendar"
 			@popover-did-hide="closeCalendar"
 			v-model.string="date" :popover="popover"
+			:timezone="'UTC'"
 			:min-date="minDate"
 			:locale="{ id: 'en', masks: { input: 'MMMM DD, YYYY', weekdays: 'WW' } }">
 			<template #default="{ inputValue, inputEvents }">

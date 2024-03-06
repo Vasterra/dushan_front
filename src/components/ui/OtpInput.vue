@@ -14,9 +14,9 @@
 	const digits = reactive([1, 2, 0, 0])
 
 	if (props.default && props.default.length === props.digitCount) {
-		// for (let i = 0; i < props.digitCount; i++) {
-		// 	digits[i] = props.default.charAt(i)
-		// }
+		for (let i = 0; i < props.digitCount; i++) {
+			digits[i] = props.default.charAt(i)
+		}
 	} else {
 		for (let i = 0; i < props.digitCount; i++) {
 			digits[i] = null;

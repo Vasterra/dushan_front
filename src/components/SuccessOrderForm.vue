@@ -47,7 +47,7 @@
 				</div>
 				<div class="card__item--info">
 					<div class="info__title">Departure Time</div>
-					<p class="info__desc">{{ order.departure_time }}</p>
+					<p class="info__desc">{{ order.departure_time }} {{ order.is_pm ? 'PM' : 'AM' }}</p>
 				</div>
 			</div>
 			<div class="card__item">

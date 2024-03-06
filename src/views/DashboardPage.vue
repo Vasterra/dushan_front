@@ -161,14 +161,20 @@
 		top: 0;
 		left: 0;
 		//height: 100vh;
+		overflow: hidden;
+		@include breakpoint(xs) {
+			overflow: auto;
+		}
 
 		img {
 			width: 100vw;
 			height: 100vh;
 			object-fit: cover;
-			object-position: 50% -40px;
+			transform: scale(1.3);
+			object-position: 50% 40px;
 			@include breakpoint(xs) {
 				object-position: 0 0;
+				transform: scale(1);
 			}
 		}
 	}
@@ -225,6 +231,21 @@
 
 		&.step-4 {
 			padding-top: 140px;
+
+			.dashboard-page__col {
+				height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin: 16px;
+				@include breakpoint(xs) {
+					position: relative;
+					display: block;
+				}
+			}
 		}
 
 		&__col {
