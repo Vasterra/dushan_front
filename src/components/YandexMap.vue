@@ -7,34 +7,58 @@
 		YandexMapDefaultFeaturesLayer,
 		YandexMapListener, VueYandexMaps
 	} from 'vue-yandex-maps';
-	import { YMapMarkerProps } from '@yandex/ymaps3-types/imperative/YMapMarker';
+	// import { YMapMarkerProps } from '@yandex/ymaps3-types/imperative/YMapMarker';
 	import { computed, reactive, shallowRef, watch } from "vue";
+	import PointMapIcon from "@/components/icons/PointMapIcon"
 
 	const map = shallowRef<null | YMap>(null);
 
+	/* eslint-disable */
+	const props = defineProps<{
+		coordsItems: number[]
+	}>()
+
 	const settings = reactive({
 		location: {
-			center: [37.617644, 55.755819],
-			zoom: 9,
+			center: [16.3725042, 48.2083537],
+			zoom: 7,
 		},
 		version: "2.1",
-		lang: 'en',
 		enterprise: false,
 		debug: false,
 	})
 
 	const handleClick = (event: MouseEvent) => console.log(event);
 
-	const markers: YMapMarkerProps[] = [
-		{
-			coordinates: [37.617644, 55.755819],
-			onClick: handleClick,
-		},
-		{
-			coordinates: [37.617644, 55.755819],
-			onClick: handleClick,
-		},
-	];
+
+	const randomColorMarker = () => {
+		return Math.floor(Math.random() * 16777215).toString(16);
+	}
+	const componentToHex = (c: string) => {
+		var hex = c.toString(16);
+		return hex.length == 1 ? "0" + hex : hex;
+	}
+	const rgbToHex = (r: string, g: string, b: string) => {
+		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+	}
+
+	// const randomColorMarker = () => {
+	// 	let r, g, b;
+	// 	r = Math.floor(Math.random() * 256);
+	// 	g = Math.floor(Math.random() * 256);
+	// 	b = Math.floor(Math.random() * 256);
+	// 	return rgbToHex(r.toString(), g.toString(), b.toString());
+	// }
+
+	const markers = computed(() => {
+		return props.coordsItems.map(function (coords) {
+			return {
+				color: `#${randomColorMarker()}`,
+				coordinates: coords,
+				onClick: handleClick,
+			}
+		})
+	})
 
 	const mapWasInitializedHandler = (map) => {
 		console.log(map)
@@ -101,16 +125,20 @@
 		class="ymap-class"
 		@initializeOn="mapWasInitializedHandler"
 		:settings="settings"
+		:scroll-zoom="false"
+		:use-object-manager="true"
+		:show-all-markers="true"
 	>
 		<yandex-map-default-scheme-layer/>
 		<yandex-map-default-features-layer/>
 		<yandex-map-listener/>
 		<yandex-map-marker
 			v-for="(marker, index) in markers"
+			:marker-id="index"
 			:key="index"
 			:settings="marker"
 		>
-			<div class="marker"/>
+			<PointMapIcon class="marker" :color="marker.color"/>
 		</yandex-map-marker>
 	</yandex-map>
 </template>
@@ -132,17 +160,7 @@
 		}
 	}
 
-	.marker {
-		position: relative;
-		width: 20px;
-		height: 20px;
-		background: #ff0000;
-		border-radius: 50%;
-		border: 2px solid #fff;
-		box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-		text-align: center;
-		color: #fff;
-		font-weight: bold;
-		line-height: 20px;
+	.ymaps3x0--map-copyrights_right {
+		display: none !important;
 	}
 </style>

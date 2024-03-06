@@ -18,6 +18,9 @@
 		emit(isAdded.value ? 'add' : 'remove', props.item)
 	}
 
+	const srcImage = computed(() => {
+		return `http://127.0.0.1:8000/${props.item.photo}`
+	})
 
 	const colorIcon = computed(() => {
 		return isAdded.value ? '#C4161C' : '#FFFFFF'
@@ -34,7 +37,7 @@
 		</div>
 		<div class="additional-stop__img">
 			<img
-				src="~@/assets/images/41f73c87-7469-4bfd-b7c3-851d1ca1498f-stock_376555144_pyty-lednice-chateau-on-summer-day 1.png"
+				:src="srcImage"
 				alt="bg-image.png">
 		</div>
 		<div class="additional-stop__name">{{ item.name }}</div>

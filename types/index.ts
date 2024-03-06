@@ -50,6 +50,8 @@ export type LocationTravelItem = {
   drop_off_location_id: number
   added_stops: AdditionalStopType[]
   prices: Price[]
+  uuid: string
+  coords: number[]
 }
 
 export type Price = {
@@ -65,6 +67,7 @@ export type Price = {
 export type LocationItem = {
   id: number
   name: string
+  coords: number[]
 }
 
 export type AdditionalStopType = {
@@ -78,4 +81,30 @@ export type AdditionalStopType = {
   price: number
   price_for_8_pax: number
   updated_at: string
+  photo: string | null
+  uuid: string
+  coords: number[]
+  location_stop?: LocationItem
+}
+
+export interface CarTypeItem {
+  created_at: string
+  deleted_at: string | null
+  icon: string | null
+  id: number
+  name: string
+  updated_at: string
+}
+
+export interface OrderItem {
+  id: number
+  is_pm: boolean
+  adults: number
+  children: number
+  departure_date: string
+  departure_time: string
+  car_type: CarTypeItem
+  drop_off_location: LocationItem
+  pickup_location: LocationItem
+  stops: AdditionalStopType[]
 }

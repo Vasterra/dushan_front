@@ -11,12 +11,12 @@
 		}
 	});
 
-	const digits = reactive([0, 8, 0, 0])
+	const digits = reactive([1, 2, 0, 0])
 
 	if (props.default && props.default.length === props.digitCount) {
-		for (let i = 0; i < props.digitCount; i++) {
-			digits[i] = props.default.charAt(i)
-		}
+		// for (let i = 0; i < props.digitCount; i++) {
+		// 	digits[i] = props.default.charAt(i)
+		// }
 	} else {
 		for (let i = 0; i < props.digitCount; i++) {
 			digits[i] = null;
@@ -65,26 +65,41 @@
 		if ((new RegExp('^([0-9])$')).test(event.key)) {
 			digits[index] = event.key;
 
-			if ((index === 0 || index === 4) && event.key > 1) {
+			console.log(index)
+			console.log(digits[1])
+
+			if ((index == 0 || index == 4) && event.key > 1) {
 				digits[index] = 1
 			}
 
-			if (index === 1 && event.key > 2) {
+			if (index == 1 && event.key > 2 && digits[0] == 1) {
 				digits[index] = 2
 			}
 
-			if (index === 2 && event.key > 5) {
+			if (index == 2 && event.key > 5) {
 				digits[index] = 5
+			}
+
+			if (index == 0 && event.key == 1 && digits[1] >= 2) {
+				console.log(32)
+				digits[1] = 2
 			}
 		} else {
 			digits[index] = placeholders[index];
 		}
+
 
 		if (index != props.digitCount - 1) {
 			(otpCont.value.children)[index + 1].focus();
 		}
 
 		if (isDigitsFull()) {
+			if (digits.join('') == "1259") {
+				digits[0] = 1;
+				digits[1] = 1;
+				digits[2] = 5;
+				digits[3] = 9;
+			}
 			emit('update:otp', digits.join(''))
 		}
 	}

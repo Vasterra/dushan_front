@@ -11,6 +11,7 @@ createApp(App)
   .use(
     createYmaps({
       apikey: "c1965cdf-4572-4ca1-85ab-83180413589d",
+      lang: "en_US",
     }),
   )
   .use(VCalendar, {})

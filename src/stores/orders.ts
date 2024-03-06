@@ -1,11 +1,15 @@
 import { defineStore } from "pinia"
 import axios from "axios"
 import { LocationType, LocationTravelItem, AdditionalStopType, Price } from "../../types"
+import router from "../router"
 
 export const useOrderStore = defineStore("orders", {
   state: () => ({
+    url: "http://127.0.0.1:8000/api",
     locations: [],
     travels: [],
+    pickup_location: null,
+    drop_off_location: null,
     form: {
       departure_date: null,
       departure_time: null,
@@ -22,15 +26,36 @@ export const useOrderStore = defineStore("orders", {
       car_type_id: null,
       is_pm: true,
       stops: [],
+      location_travel_id: null,
     },
   }),
   getters: {
+    getCoords(state) {
+      const coords = []
+      /* eslint-disable */
+      // @ts-ignore
+      coords.push(state.pickup_location.coords)
+      state.form.stops.map(function (stop) {
+        /* eslint-disable */
+        // @ts-ignore
+        coords.push(stop.coords)
+      })
+      /* eslint-disable */
+      // @ts-ignore
+      coords.push(state.drop_off_location.coords)
+
+      return coords
+    },
     getTravel(state): LocationTravelItem | null {
       const data = state.travels.find(
         (x: LocationTravelItem) =>
           x.pickup_location_id === state.form.pickup_location_id &&
           x.drop_off_location_id === state.form.drop_off_location_id,
       )
+
+      /* eslint-disable */
+      // @ts-ignore
+      state.form.location_travel_id = data !== undefined ? data.id : null
       return data !== undefined ? data : null
     },
     getCost(state) {
@@ -98,23 +123,52 @@ export const useOrderStore = defineStore("orders", {
         this.form.email !== null
       )
     },
-    count() {
-      return 12
+    storeRequest(state) {
+      return { ...state.form, ...{ stops_id: state.form.stops.map((x: AdditionalStopType) => x.id) ?? [] } }
     },
   },
   actions: {
     getLocations() {
-      axios.get("http://127.0.0.1:8000/api/locations").then(({ data }) => {
+      axios.get(`${this.url}/locations`).then(({ data }) => {
         this.locations = data
       })
     },
     getLocationTravels() {
-      axios.get("http://127.0.0.1:8000/api/locations/travels").then(({ data }) => {
+      axios.get(`${this.url}/locations/travels`).then(({ data }) => {
         this.travels = data
       })
     },
     getAdditionalStops(travel?: LocationTravelItem): AdditionalStopType[] {
       return travel ? travel.added_stops : []
+    },
+    storeOrder() {
+      axios
+        // @ts-ignore
+        .post(`${this.url}/orders`, this.storeRequest)
+        .then(({ data }) => {
+          router.push({ name: "showOrder", params: { uuid: data.uuid } })
+          console.log(data.uuid)
+        })
+        .catch(res => {
+          if (res.data) {
+            alert(res.response.data.message)
+            console.log(res)
+          }
+        })
+    },
+
+    getOrder(uuid: string) {
+      return axios
+        .get(`${this.url}/orders/${uuid}`)
+        .then(({ data }) => {
+          return data
+        })
+        .catch(res => {
+          if (res.data) {
+            alert(res.response.data.message)
+            console.log(res)
+          }
+        })
     },
   },
 })

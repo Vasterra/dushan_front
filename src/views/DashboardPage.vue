@@ -4,7 +4,6 @@
 	import CustomLogo from "@/components/CustomLogo.vue"
 	import OrderRouteForm from '@/components/OrderRouteForm'
 	import OrderPersonalInfoForm from '@/components/OrderPersonalInfoForm'
-	import SuccessOrderForm from '@/components/SuccessOrderForm'
 	import CustomButton from "@/components/ui/CustomButton"
 	import AdditionalStopCard from "@/components/AdditionalStopCard"
 	import CustomStripe from "@/components/CustomStripe"
@@ -19,10 +18,17 @@
 	const changeBgColor = useEventBus('changeBgColor')
 
 	const updateRouteForm = (data: OrderRouteFormType) => {
+		if (store.form.pickup_location_id !== data.pickup_location_id || store.form.drop_off_location_id !== data.drop_off_location_id) {
+			store.form.stops = []
+		}
 		// @ts-ignore
 		store.form.pickup_location_id = data.pickup_location_id;
 		// @ts-ignore
 		store.form.drop_off_location_id = data.drop_off_location_id;
+		// @ts-ignore
+		store.pickup_location = data.pickup_location;
+		// @ts-ignore
+		store.drop_off_location = data.drop_off_location;
 		// @ts-ignore
 		store.form.car_type_id = data.car_type_id;
 		// @ts-ignore
@@ -52,11 +58,19 @@
 		}
 	}
 
-	const openStripe = () => {
+	const openStripe = async () => {
 		// @ts-ignore
 		if (store.isValidStepSecond) {
-			step.value = 4
-			changeBgColor.emit('black')
+			const data = await store.storeOrder();
+			// @ts-ignore
+			if (data?.id) {
+				step.value = 3
+				changeBgColor.emit('black')
+			}
+			// @ts-ignore
+			console.log(store.storeRequest)
+			// step.value = 4
+			// changeBgColor.emit('black')
 		}
 	}
 
@@ -81,8 +95,8 @@
 	</picture>
 	<div class="wrapper">
 		<CustomLogo class="logo" :step="step"/>
-		<div class="dashboard-page" :class="{'step-2': step === 2, 'step-3': step === 3, 'step-4': step === 4}">
-			<template v-if="step !== 4 && step !== 3">
+		<div class="dashboard-page" :class="{'step-2': step === 2, 'step-3': step === 3}">
+			<template v-if="step !== 3">
 				<div class="dashboard-page__col">
 					<template v-if="step === 1">
 						<div class="dashboard-page__title">Need a ride?</div>
@@ -104,7 +118,7 @@
 													@click.stop.prevent="openStripe"/>
 						<Card class="card__row" :with-title="false">
 							<template #body>
-								<YandexMap/>
+								<YandexMap :coords-items="store.getCoords"/>
 							</template>
 						</Card>
 					</template>
@@ -126,7 +140,6 @@
 			</template>
 
 			<CustomStripe v-if="step === 3"/>
-			<SuccessOrderForm v-if="step === 4"/>
 		</div>
 	</div>
 </template>

@@ -24,6 +24,8 @@
 		is_pm: true,
 		pickup_location_id: 0,
 		drop_off_location_id: 0,
+		pickup_location: null,
+		drop_off_location: null,
 		car_type_id: 0,
 		adults: 0,
 		children: 0,
@@ -43,11 +45,13 @@
 
 	const selectPickupLocation = (item: DropdownItem) => {
 		info.pickup_location_id = item.id
+		info.pickup_location = item
 		updateInfo()
 	}
 
 	const selectDropOffLocation = (item: DropdownItem) => {
 		info.drop_off_location_id = item.id
+		info.drop_off_location = item
 		updateInfo()
 	}
 

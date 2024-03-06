@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-	import { reactive } from "vue";
+	/* eslint-disable */
+	// @ts-ignore
+	import { computed, reactive } from "vue";
+	import router from "../router"
 	import CustomButton from "@/components/ui/CustomButton"
 	import CarTypeIcon from "@/components/icons/SuccessOrder/CarTypeIcon"
 	import DateIcon from "@/components/icons/SuccessOrder/DateIcon"
@@ -8,22 +11,20 @@
 	import DropOffLocationIcon from "@/components/icons/SuccessOrder/DropOffLocationIcon"
 	import PickupLocationIcon from "@/components/icons/SuccessOrder/PickupLocationIcon"
 	import TimeIcon from "@/components/icons/SuccessOrder/TimeIcon"
+	import { OrderItem } from "../../types";
 
-	const order = reactive({
-		departure_date: "March 12, 2024",
-		departure_time: "09:20 AM",
-		pickup_location: {
-			name: "Vienna"
-		},
-		drop_off_location: {
-			name: "Prague"
-		},
-		additional_stops: "Parndorf Outlet, Bratislava, Schloss Esterhazy, Pannonhalma Archabbey, Esztergom",
-		car_type: {
-			name: 'Sedan'
-		},
-		passengers: "2 adults, 2 children"
+	const props = defineProps<{
+		order: OrderItem
+	}>()
+
+	const additional_stops = computed(() => {
+		// @ts-ignore
+		return props.order.stops.map(value => value.location_stop.name).join(",");
 	})
+
+	const goHome = () => {
+		router.push({name: "dashboard"})
+	}
 </script>
 <template>
 	<div class="success-order">
@@ -67,13 +68,13 @@
 					<p class="info__desc">{{ order.drop_off_location.name }}</p>
 				</div>
 			</div>
-			<div class="card__item">
+			<div class="card__item" v-if="additional_stops">
 				<div class="card__item--icon">
 					<AdditionalStopsIcon width="16" height="16"/>
 				</div>
 				<div class="card__item--info">
 					<div class="info__title">Additional stops</div>
-					<p class="info__desc">{{ order.additional_stops }}</p>
+					<p class="info__desc">{{ additional_stops }}</p>
 				</div>
 			</div>
 			<div class="card__item">
@@ -91,14 +92,14 @@
 				</div>
 				<div class="card__item--info">
 					<div class="info__title">Number of the passengers</div>
-					<p class="info__desc">{{ order.passengers }}</p>
+					<p class="info__desc">{{ `${order.adults} adults, ${order.children} children` }}</p>
 				</div>
 			</div>
 		</div>
 		<div class="success-order__card">
 			<p>Driver’s contacts will be sent within 24 hours via whatsapp</p>
 		</div>
-		<CustomButton text="Go home" class="button" @click="emit('home')"/>
+		<CustomButton text="Go home" class="button" @click="goHome"/>
 	</div>
 </template>
 <style lang="scss" scoped>
