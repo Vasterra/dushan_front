@@ -233,7 +233,7 @@
 			padding-top: 140px;
 
 			.dashboard-page__col {
-				height: 100vh;
+				height: calc(100vh - 16px);
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -244,6 +244,7 @@
 				@include breakpoint(xs) {
 					position: relative;
 					display: block;
+					height: 100%;
 				}
 			}
 		}
