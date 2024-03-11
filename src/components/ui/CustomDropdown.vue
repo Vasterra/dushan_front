@@ -42,10 +42,10 @@
 <template>
 	<div>
 		<div class="custom-dropdown" @click="open" :class="{isOpen, isError, isBorderTransparent}" ref="component">
-			<div class="custom-dropdown__title" :class="{selected}">
+			<div class="custom-dropdown__title" :class="{selected: selected && selected?.id !== null}">
 				{{ label }}
 			</div>
-			<div class="custom-dropdown__selected" v-if="selected">{{ selected.name }}</div>
+			<div class="custom-dropdown__selected" v-if="selected && selected.id !== null">{{ selected.name }}</div>
 			<div class="custom-dropdown__arrow">
 				<ArrowIcon :direction="isOpen ? 'up' : 'down'" width="16" height="16"/>
 			</div>

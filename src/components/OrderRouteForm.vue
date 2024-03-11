@@ -46,6 +46,9 @@
 	const selectPickupLocation = (item: DropdownItem) => {
 		info.pickup_location_id = item.id
 		info.pickup_location = item
+		if (!info.pickup_location_id) {
+
+		}
 		updateInfo()
 	}
 
@@ -72,7 +75,6 @@
 	}
 
 	const updateTime = (value: string) => {
-		console.log(value)
 		info.departure_time = value;
 		updateInfo()
 	}
@@ -85,7 +87,6 @@
 	onMounted(() => {
 		orderStore.getLocations()
 		orderStore.getLocationTravels()
-		carTypeStore.getCarTypes()
 	})
 </script>
 <template>
@@ -105,7 +106,7 @@
 					<p class="text-gray text-info">Not less than 48 hours from the current date</p>
 				</div>
 				<div class="body-card__row">
-					<CustomDropdown @select="selectCarType" :items="carTypeStore.carTypes" label="Car type *" id="car_type"
+					<CustomDropdown @select="selectCarType" :items="orderStore.getCarTypes" label="Car type *" id="car_type"
 													name="car_type"
 													class="w-100"/>
 					<PassengerDropdown @update="updatePassengers" label="Number of the passengers*" class="w-100"/>

@@ -22,8 +22,9 @@
 		return props.order.stops.map(value => value.location_stop.name).join(",");
 	})
 
-	const goHome = () => {
-		router.push({name: "dashboard"})
+	const goHome = async () => {
+		await router.push({name: "dashboard"})
+		router.go(0)
 	}
 </script>
 <template>

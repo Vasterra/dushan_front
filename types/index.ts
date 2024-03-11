@@ -62,6 +62,7 @@ export type Price = {
   location_travel_id: number
   price: number
   updated_at: string
+  car_type?: CarTypeItem
 }
 
 export type LocationItem = {

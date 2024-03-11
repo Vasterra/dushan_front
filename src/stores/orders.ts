@@ -30,6 +30,15 @@ export const useOrderStore = defineStore("orders", {
     },
   }),
   getters: {
+    getCarTypes(state) {
+      /* eslint-disable */
+      // @ts-ignore
+      const travel = this.getTravel
+
+      return travel?.prices?.map(function (price: Price) {
+        return price.car_type
+      })
+    },
     getCoords(state) {
       const coords = []
       /* eslint-disable */
@@ -56,6 +65,7 @@ export const useOrderStore = defineStore("orders", {
       /* eslint-disable */
       // @ts-ignore
       state.form.location_travel_id = data !== undefined ? data.id : null
+      console.log(data !== undefined ? data : null)
       return data !== undefined ? data : null
     },
     getCost(state) {
@@ -79,22 +89,59 @@ export const useOrderStore = defineStore("orders", {
       }).format(travelCost + stopsCost)
     },
     getPickupLocations(state) {
-      const data = state.locations.filter(
+      if (!state.form.pickup_location_id) {
+        return state.locations
+      }
+      let data = []
+      data = state.locations.filter(
         (x: LocationType) =>
           x.pickup_travels?.find(
             (x: LocationTravelItem) => x.drop_off_location_id === state.form.drop_off_location_id,
           ) !== undefined,
       )
-      return data.length ? data : state.locations
+      /* eslint-disable */
+      // @ts-ignore
+      if (state.form.pickup_location_id) {
+        data = [{ id: null, name: "Reset" }, ...data]
+      } else {
+        data = data.length > 0 ? data : state.locations
+      }
+
+      /* eslint-disable */
+      // @ts-ignore
+      if (!this.getTravel) {
+        state.form.pickup_location_id = null
+        state.pickup_location = null
+      }
+
+      return data
     },
     getDropOffLocations(state) {
-      const data = state.locations.filter(
+      if (!state.form.drop_off_location_id) {
+        return state.locations
+      }
+      let data = []
+      data = state.locations.filter(
         (x: LocationType) =>
           x.drop_off_travels?.find(
             (x: LocationTravelItem) => x.pickup_location_id === state.form.pickup_location_id,
           ) !== undefined,
       )
-      return data.length ? data : state.locations
+      /* eslint-disable */
+      // @ts-ignore
+      if (state.form.drop_off_location_id) {
+        data = [{ id: null, name: "Reset" }, ...data]
+      } else {
+        data = data.length > 0 ? data : state.locations
+      }
+
+      /* eslint-disable */
+      // @ts-ignore
+      if (!this.getTravel) {
+        state.form.drop_off_location_id = null
+        state.drop_off_location = null
+      }
+      return data
     },
     countPassengers(state) {
       return state.form.adults + state.form.children
