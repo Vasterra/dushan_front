@@ -1,35 +1,39 @@
 <script lang="ts" setup>
+	/* eslint-disable */
 	import { StripeCheckout } from '@vue-stripe/vue-stripe';
-	import { reactive, ref } from "vue";
+	import { onMounted, ref } from "vue";
+	import { useStripeStore } from "@/stores/stripe";
+	import { useEventBus } from "@vueuse/core";
 
+	const checkoutSubmit = useEventBus('checkoutSubmit')
+	const submit_btn = ref(null);
 	const checkoutRef = ref(null);
 	const loading = ref(false);
-	const successURL = ref('');
-	const cancelURL = ref('');
-	const publishableKey = ref('pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH');
-	const lineItems = reactive([
-		{
-			price: 'some-price-id', // The id of the one-time price you created in your Stripe dashboard
-			quantity: 1,
-		},
-	]);
+	const publishableKey = ref('pk_test_51MshW7Lrb7JLXGH5tKzLajIO7tkbbrlbnr7CjBTWiTZxHE8q4sNKa8YXimN3AmGbLnIzp104zgC4GxBIVrF03L7Y00mRgMVMBF');
+	const store = useStripeStore()
 
 	const submit = () => {
 		// You will be redirected to Stripe's secure checkout page
 		checkoutRef.value.redirectToCheckout();
 	};
+
+	onMounted(async () => {
+		await checkoutSubmit.on(async (uuid) => {
+			console.log(uuid)
+			await store.createSession(uuid)
+			submit_btn.value.click();
+		})
+	})
 </script>
 <template>
 	<div>
 		<stripe-checkout
 			ref="checkoutRef"
-			mode="payment"
 			:pk="publishableKey"
-			:line-items="lineItems"
-			:success-url="successURL"
-			:cancel-url="cancelURL"
+			:session-id="store.session?.id"
+			v-if="store.session?.id"
 			@loading="v => loading = v"
 		/>
-		<button @click="submit">Pay now!</button>
+		<button style="display:none;" ref="submit_btn" @click="submit">Checkout!</button>
 	</div>
 </template>

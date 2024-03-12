@@ -13,6 +13,8 @@
 	import { useEventBus } from "@vueuse/core";
 	import { AdditionalStopType, OrderRouteFormType } from "../../types";
 
+	const checkoutSubmit = useEventBus('checkoutSubmit')
+
 	const step = ref(1);
 	const store = useOrderStore();
 	const changeBgColor = useEventBus('changeBgColor')
@@ -50,6 +52,8 @@
 		store.form.phone = data.phone;
 	}
 
+	const order = ref()
+
 	const saveRouteForm = () => {
 		// @ts-ignore
 		if (store.isValidStepFirst) {
@@ -62,10 +66,12 @@
 		// @ts-ignore
 		if (store.isValidStepSecond) {
 			const data = await store.storeOrder();
+			// order.value = data;
 			// @ts-ignore
 			if (data?.id) {
-				step.value = 3
+				// step.value = 3
 				changeBgColor.emit('black')
+				checkoutSubmit.emit(data.uuid);
 			}
 			// @ts-ignore
 			console.log(store.storeRequest)
@@ -84,6 +90,7 @@
 	}
 </script>
 <template>
+	<CustomStripe/>
 	<picture v-if="step !== 2">
 		<source media="(min-width:568px)"
 						srcset="~@/assets/images/bg-image.png">
@@ -96,50 +103,48 @@
 	<div class="wrapper">
 		<CustomLogo class="logo" :step="step"/>
 		<div class="dashboard-page" :class="{'step-2': step === 2, 'step-3': step === 3}">
-			<template v-if="step !== 3">
-				<div class="dashboard-page__col">
-					<template v-if="step === 1">
-						<div class="dashboard-page__title">Need a ride?</div>
-						<div class="dashboard-page__desc">Enjoy it, we drive</div>
-					</template>
-					<OrderRouteForm :is-disabled="!store.isValidStepFirst" class="OrderRouteForm" @save="saveRouteForm"
-													@updateInfo="updateRouteForm" :step="step"/>
-					<template v-if="step === 2">
-						<OrderPersonalInfoForm @updateInfo="updatePersonalInfo"/>
-						<Card class="card__row" :with-title="true">
-							<template #name>Final cost: {{ store.isValidStepSecond ? store.getCost : "" }}</template>
-							<template #body>
-								<p class="text-gray text-info cost" v-if="!store.isValidStepSecond">
-									To see the final cost, you need to fill in all the fields
-								</p>
-							</template>
-						</Card>
-						<CustomButton text="Pay and Complete" :is-disabled="!store.isValidStepSecond"
-													@click.stop.prevent="openStripe"/>
-						<Card class="card__row" :with-title="false">
-							<template #body>
-								<YandexMap :coords-items="store.getCoords"/>
-							</template>
-						</Card>
-					</template>
-				</div>
-				<div class="dashboard-page__col" v-if="step === 2">
+			<!--			<template v-if="step !== 3">-->
+			<div class="dashboard-page__col">
+				<template v-if="step === 1">
+					<div class="dashboard-page__title">Need a ride?</div>
+					<div class="dashboard-page__desc">Enjoy it, we drive</div>
+				</template>
+				<OrderRouteForm :is-disabled="!store.isValidStepFirst" class="OrderRouteForm" @save="saveRouteForm"
+												@updateInfo="updateRouteForm" :step="step"/>
+				<template v-if="step === 2">
+					<OrderPersonalInfoForm @updateInfo="updatePersonalInfo"/>
 					<Card class="card__row" :with-title="true">
-						<template #name>Additional stops</template>
+						<template #name>Final cost: {{ store.isValidStepSecond ? store.getCost : "" }}</template>
 						<template #body>
-							<div class="stops">
-								<template v-for="item in store.getAdditionalStops(store.getTravel)" :key="item.id">
-									<AdditionalStopCard class="w-100" :item="item" :count-passengers="store.countPassengers"
-																			@remove="removeStop"
-																			@add="addStop"/>
-								</template>
-							</div>
+							<p class="text-gray text-info cost" v-if="!store.isValidStepSecond">
+								To see the final cost, you need to fill in all the fields
+							</p>
 						</template>
 					</Card>
-				</div>
-			</template>
-
-			<CustomStripe v-if="step === 3"/>
+					<CustomButton text="Pay and Complete" :is-disabled="!store.isValidStepSecond"
+												@click.stop.prevent="openStripe"/>
+					<Card class="card__row" :with-title="false">
+						<template #body>
+							<YandexMap :coords-items="store.getCoords"/>
+						</template>
+					</Card>
+				</template>
+			</div>
+			<div class="dashboard-page__col" v-if="step === 2">
+				<Card class="card__row" :with-title="true">
+					<template #name>Additional stops</template>
+					<template #body>
+						<div class="stops">
+							<template v-for="item in store.getAdditionalStops(store.getTravel)" :key="item.id">
+								<AdditionalStopCard class="w-100" :item="item" :count-passengers="store.countPassengers"
+																		@remove="removeStop"
+																		@add="addStop"/>
+							</template>
+						</div>
+					</template>
+				</Card>
+			</div>
+			<!--			</template>-->
 		</div>
 	</div>
 </template>

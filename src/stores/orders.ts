@@ -191,20 +191,26 @@ export const useOrderStore = defineStore("orders", {
     getAdditionalStops(travel?: LocationTravelItem): AdditionalStopType[] {
       return travel ? travel.added_stops : []
     },
+    // @ts-ignore
     storeOrder() {
-      axios
-        // @ts-ignore
-        .post(`${this.url}/orders`, this.storeRequest)
-        .then(({ data }) => {
-          router.push({ name: "showOrder", params: { uuid: data.uuid } })
-          console.log(data.uuid)
-        })
-        .catch(res => {
-          if (res.data) {
-            alert(res.response.data.message)
-            console.log(res)
-          }
-        })
+      return (
+        axios
+          // @ts-ignore
+          .post(`${this.url}/orders`, this.storeRequest)
+          .then(({ data }) => {
+            return data
+            // router.push({ name: "showOrder", params: { uuid: data.uuid } })
+            // console.log(data.uuid)
+          })
+          .catch(res => {
+            // if (res.data) {
+            //   alert(res.response.data.message)
+            //   console.log(res)
+            // }
+
+            return null
+          })
+      )
     },
 
     getOrder(uuid: string) {
