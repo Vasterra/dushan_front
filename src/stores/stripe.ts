@@ -1,13 +1,14 @@
 import { defineStore } from "pinia"
-import axios from "axios"
+import { useApi } from "@/stores/api"
 
 export const useStripeStore = defineStore("stripe", {
   state: () => ({
     session: null,
+    api: useApi().request(),
   }),
   actions: {
     async createSession(orderUuid: string) {
-      await axios.get(`http://127.0.0.1:8000/api/stripe/session-id/${orderUuid}`).then(({ data }) => {
+      await this.api.get(`/api/stripe/session-id/${orderUuid}`).then(({ data }) => {
         this.session = data
       })
     },

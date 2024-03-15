@@ -1,11 +1,10 @@
 import { defineStore } from "pinia"
-import axios from "axios"
 import { LocationType, LocationTravelItem, AdditionalStopType, Price } from "../../types"
-import router from "../router"
+import { useApi } from "@/stores/api"
 
 export const useOrderStore = defineStore("orders", {
   state: () => ({
-    url: "http://127.0.0.1:8000/api",
+    api: useApi().request(),
     locations: [],
     travels: [],
     pickup_location: null,
@@ -179,13 +178,13 @@ export const useOrderStore = defineStore("orders", {
   },
   actions: {
     getLocations() {
-      axios.get(`${this.url}/locations`).then(({ data }) => {
-        this.locations = data
+      this.api.get(`/api/locations`).then(res => {
+        this.locations = res ? res.data : []
       })
     },
     getLocationTravels() {
-      axios.get(`${this.url}/locations/travels`).then(({ data }) => {
-        this.travels = data
+      this.api.get(`/api/locations/travels`).then(res => {
+        this.travels = res ? res.data : []
       })
     },
     getAdditionalStops(travel?: LocationTravelItem): AdditionalStopType[] {
@@ -194,37 +193,19 @@ export const useOrderStore = defineStore("orders", {
     // @ts-ignore
     storeOrder() {
       return (
-        axios
+        this.api
           // @ts-ignore
-          .post(`${this.url}/orders`, this.storeRequest)
-          .then(({ data }) => {
-            return data
-            // router.push({ name: "showOrder", params: { uuid: data.uuid } })
-            // console.log(data.uuid)
-          })
-          .catch(res => {
-            // if (res.data) {
-            //   alert(res.response.data.message)
-            //   console.log(res)
-            // }
-
-            return null
+          .post(`/api/orders`, this.storeRequest)
+          .then(res => {
+            return res ? res.data : null
           })
       )
     },
 
     getOrder(uuid: string) {
-      return axios
-        .get(`${this.url}/orders/${uuid}`)
-        .then(({ data }) => {
-          return data
-        })
-        .catch(res => {
-          if (res.data) {
-            alert(res.response.data.message)
-            console.log(res)
-          }
-        })
+      return this.api.get(`/api/orders/${uuid}`).then(res => {
+        return res ? res.data : null
+      })
     },
   },
 })

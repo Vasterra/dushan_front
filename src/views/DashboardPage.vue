@@ -8,12 +8,14 @@
 	import AdditionalStopCard from "@/components/AdditionalStopCard"
 	import CustomStripe from "@/components/CustomStripe"
 	import YandexMap from "@/components/YandexMap"
+	import GoogleMap from "@/components/GoogleMap"
 	import { ref } from "vue";
 	import { useOrderStore } from "@/stores";
 	import { useEventBus } from "@vueuse/core";
 	import { AdditionalStopType, OrderRouteFormType } from "../../types";
 
 	const checkoutSubmit = useEventBus('checkoutSubmit')
+	const changeIsOpenLoaderModal = useEventBus("changeIsOpenLoaderModal")
 
 	const step = ref(1);
 	const store = useOrderStore();
@@ -65,18 +67,13 @@
 	const openStripe = async () => {
 		// @ts-ignore
 		if (store.isValidStepSecond) {
+			changeIsOpenLoaderModal.emit(true);
 			const data = await store.storeOrder();
-			// order.value = data;
-			// @ts-ignore
 			if (data?.id) {
 				// step.value = 3
 				changeBgColor.emit('black')
 				checkoutSubmit.emit(data.uuid);
 			}
-			// @ts-ignore
-			console.log(store.storeRequest)
-			// step.value = 4
-			// changeBgColor.emit('black')
 		}
 	}
 
@@ -90,6 +87,7 @@
 	}
 </script>
 <template>
+	<!--	<GoogleMap/>-->
 	<CustomStripe/>
 	<picture v-if="step !== 2">
 		<source media="(min-width:568px)"

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 	import { useEventBus } from "@vueuse/core";
 	import { onMounted, ref, watch } from "vue";
+	import ServerErrorModal from "@/components/modals/ServerErrorModal.vue"
+	import LoaderModal from "@/components/modals/LoaderModal.vue"
 
 	const changeBgColor = useEventBus('changeBgColor')
 
@@ -23,6 +25,8 @@
 	})
 </script>
 <template>
+	<ServerErrorModal/>
+	<LoaderModal/>
 	<router-view/>
 </template>
 

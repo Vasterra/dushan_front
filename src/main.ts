@@ -5,6 +5,7 @@ import { createPinia } from "pinia"
 import { createYmaps } from "vue-yandex-maps"
 import VCalendar from "v-calendar"
 import "v-calendar/style.css"
+import VueGoogleMaps from "@fawmi/vue-google-maps"
 
 /* eslint-disable */
 createApp(App)
@@ -14,6 +15,11 @@ createApp(App)
       lang: "en_US",
     }),
   )
+  .use(VueGoogleMaps, {
+    load: {
+      key: "AIzaSyB24wu7Q3KzQrVyyeC9pWFnXhJDPhIurYg",
+    },
+  })
   .use(VCalendar, {})
   .use(router)
   .use(createPinia())

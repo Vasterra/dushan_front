@@ -6,6 +6,7 @@
 	import { useEventBus } from "@vueuse/core";
 
 	const checkoutSubmit = useEventBus('checkoutSubmit')
+	const changeIsOpenLoaderModal = useEventBus("changeIsOpenLoaderModal")
 	const submit_btn = ref(null);
 	const checkoutRef = ref(null);
 	const loading = ref(false);
@@ -15,10 +16,13 @@
 	const submit = () => {
 		// You will be redirected to Stripe's secure checkout page
 		checkoutRef.value.redirectToCheckout();
+
+		changeIsOpenLoaderModal.emit(false);
 	};
 
 	onMounted(async () => {
 		await checkoutSubmit.on(async (uuid) => {
+			changeIsOpenLoaderModal.emit(true);
 			console.log(uuid)
 			await store.createSession(uuid)
 			submit_btn.value.click();

@@ -1,2 +1,35 @@
 @import 'settings';
 @import 'utils';
+
+
+.flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.rounder-12 {
+  border-radius: 12px;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.close-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+
+  &__modal {
+    right: 16px;
+    top: 16px;
+  }
+}
+
+.bg-white {
+  background-color: white;
+}
