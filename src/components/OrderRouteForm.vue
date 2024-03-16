@@ -21,7 +21,7 @@
 		notes: "",
 		departure_date: "",
 		departure_time: "0800",
-		is_pm: true,
+		is_pm: false,
 		pickup_location_id: 0,
 		drop_off_location_id: 0,
 		pickup_location: null,

@@ -72,7 +72,7 @@
 			if (data?.id) {
 				// step.value = 3
 				changeBgColor.emit('black')
-				checkoutSubmit.emit(data.uuid);
+				// checkoutSubmit.emit(data.uuid);
 			}
 		}
 	}
