@@ -97,12 +97,18 @@ router.beforeEach((toRoute, fromRoute, next) => {
   // @ts-ignore
   window.document.title = toRoute.meta && toRoute.meta.title ? toRoute.meta.title : "Home"
   if (
-    !useApi().getCookie("jwtTokenIggs") &&
+    !useApi().getCookie("jwtToken") &&
     toRoute.path.toString().startsWith("/admin") &&
     toRoute.path !== "/admin/login"
   ) {
     next({
       name: "dashboard",
+    })
+  }
+
+  if (useApi().getCookie("jwtToken") && toRoute.path === "/admin/login") {
+    next({
+      name: "adminOrders",
     })
   }
   next()

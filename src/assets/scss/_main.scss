@@ -1,7 +1,6 @@
 @import 'settings';
 @import 'utils';
 
-
 .flex {
   display: flex;
 }
@@ -32,4 +31,26 @@
 
 .bg-white {
   background-color: white;
+}
+
+
+@mixin ellipsis($count) {
+  display: -webkit-box;
+  -webkit-line-clamp: $count;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.ellipsis-2 {
+  @include ellipsis(2);
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.fz-14 {
+  font-size: 14px;
 }

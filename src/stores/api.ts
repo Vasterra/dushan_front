@@ -30,7 +30,7 @@ export const useApi = defineStore("api", {
       return ""
     },
     request() {
-      const jwtTokenIggs = this.getCookie("jwtTokenIggs")
+      const jwtToken = this.getCookie("jwtToken")
 
       axios.defaults.withCredentials = true
 
@@ -39,7 +39,7 @@ export const useApi = defineStore("api", {
         withCredentials: true,
         headers: {
           Accept: "application/json",
-          Authorization: jwtTokenIggs ? "Bearer " + jwtTokenIggs : null,
+          Authorization: jwtToken ? "Bearer " + jwtToken : null,
           // 'Set-cookie': document.cookie
         },
       })
@@ -53,7 +53,7 @@ export const useApi = defineStore("api", {
           const { status } = error.response
 
           if (status == 401) {
-            this.setCookie("jwtTokenIggs", null, 0)
+            this.setCookie("jwtToken", null, 0)
             router.push({ name: "dashboard" })
           }
 
