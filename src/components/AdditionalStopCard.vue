@@ -19,7 +19,7 @@
 	}
 
 	const srcImage = computed(() => {
-		return `http://127.0.0.1:8000/${props.item.photo}`
+		return `https://api.theluxurytransfers.com/${props.item.photo}`
 	})
 
 	const colorIcon = computed(() => {

@@ -72,7 +72,7 @@
 			if (data?.id) {
 				// step.value = 3
 				changeBgColor.emit('black')
-				// checkoutSubmit.emit(data.uuid);
+				checkoutSubmit.emit(data.uuid);
 			}
 		}
 	}
@@ -164,9 +164,11 @@
 		top: 0;
 		left: 0;
 		//height: 100vh;
-		overflow: hidden;
+		//overflow: hidden;
+		width: 100vw;
+		height: 100vh;
 		@include breakpoint(xs) {
-			overflow: auto;
+			//overflow: auto;
 		}
 
 		img {

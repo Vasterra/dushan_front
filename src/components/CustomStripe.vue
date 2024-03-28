@@ -17,7 +17,9 @@
 		// You will be redirected to Stripe's secure checkout page
 		checkoutRef.value.redirectToCheckout();
 
-		changeIsOpenLoaderModal.emit(false);
+		setTimeout(() => {
+			changeIsOpenLoaderModal.emit(false);
+		}, 1200)
 	};
 
 	onMounted(async () => {

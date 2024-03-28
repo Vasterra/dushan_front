@@ -10,7 +10,7 @@ export const useAdminOrdersStore = defineStore("admin-orders", {
   actions: {
     getOrders() {
       this.api.post("/api/admin/orders").then(res => {
-        this.orders = res?.data.data
+        this.orders = res?.data
       })
     },
   },

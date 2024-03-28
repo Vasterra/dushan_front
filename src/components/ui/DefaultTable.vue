@@ -54,7 +54,7 @@
 		</div>
 
 		<div class="flex-col justify-content-center align-items-center w-100" v-else>
-			<p class="mt-24">You have no active parcels</p>
+			<p class="mt-24">You have no order</p>
 		</div>
 	</div>
 </template>
