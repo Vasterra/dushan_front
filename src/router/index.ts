@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "dashboard",
     component: DashboardPage,
     meta: {
-      title: "Dashboard",
+      title: "luxurytransfers",
       metaTags: [
         {
           name: "description",

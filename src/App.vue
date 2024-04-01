@@ -3,6 +3,7 @@
 	import { onMounted, ref, watch } from "vue";
 	import ServerErrorModal from "@/components/modals/ServerErrorModal.vue"
 	import LoaderModal from "@/components/modals/LoaderModal.vue"
+	import CustomFooter from "@/components/CustomFooter.vue"
 
 	const changeBgColor = useEventBus('changeBgColor')
 
@@ -28,6 +29,7 @@
 	<ServerErrorModal/>
 	<LoaderModal/>
 	<router-view/>
+	<CustomFooter/>
 </template>
 
 <style lang="scss">

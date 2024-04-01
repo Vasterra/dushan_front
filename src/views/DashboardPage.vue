@@ -16,6 +16,7 @@
 
 	const checkoutSubmit = useEventBus('checkoutSubmit')
 	const changeIsOpenLoaderModal = useEventBus("changeIsOpenLoaderModal")
+	const setStep = useEventBus('setStep')
 
 	const step = ref(1);
 	const store = useOrderStore();
@@ -60,6 +61,7 @@
 		// @ts-ignore
 		if (store.isValidStepFirst) {
 			step.value = 2;
+			setStep.emit(2);
 			changeBgColor.emit('white')
 		}
 	}
@@ -167,6 +169,7 @@
 		//overflow: hidden;
 		width: 100vw;
 		height: 100vh;
+		overflow: hidden;
 		@include breakpoint(xs) {
 			//overflow: auto;
 		}

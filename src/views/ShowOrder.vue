@@ -4,14 +4,17 @@
 	import { useRoute } from "vue-router";
 	import { onMounted, ref } from "vue";
 	import { useOrderStore } from "@/stores";
+	import { useEventBus } from "@vueuse/core";
 
 	const route = useRoute();
 	const uuid = ref(route.params.uuid?.toString() ?? "")
 	const order = ref()
 	const store = useOrderStore();
+	const setStep = useEventBus('setStep')
 
 	onMounted(async () => {
 		order.value = await store.getOrder(uuid.value)
+		setStep.emit(3)
 	})
 </script>
 <template>
