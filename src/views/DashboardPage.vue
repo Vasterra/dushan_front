@@ -89,7 +89,6 @@
 	}
 </script>
 <template>
-	<!--	<GoogleMap/>-->
 	<CustomStripe/>
 	<picture v-if="step !== 2">
 		<source media="(min-width:568px)"
@@ -125,7 +124,9 @@
 												@click.stop.prevent="openStripe"/>
 					<Card class="card__row" :with-title="false">
 						<template #body>
-							<YandexMap :coords-items="store.getCoords"/>
+							<GoogleMap :origin="store.getOriginCoords" :destination="store.getDestinationCoords"
+												 :waypoints="store.getWaypointsCoords"/>
+							<!--							<YandexMap :coords-items="store.getCoords"/>-->
 						</template>
 					</Card>
 				</template>
@@ -241,14 +242,15 @@
 			padding-top: 140px;
 
 			.dashboard-page__col {
-				height: calc(100vh - 16px);
+				height: auto;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				position: absolute;
+				//position: absolute;
+				position: relative;
 				top: 0;
 				left: 0;
-				margin: 16px;
+				width: 100%;
 				@include breakpoint(xs) {
 					position: relative;
 					display: block;

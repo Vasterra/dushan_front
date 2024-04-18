@@ -26,15 +26,12 @@
 			<div class="footer__col">
 				<p class="footer__title">Follow our social networks</p>
 				<div class="footer__social">
-					<div class="footer__social--item">
+					<a target="_blank" href="https://www.instagram.com/theluxurytransfers/" class="footer__social--item">
 						<InstagramIcon/>
-					</div>
-					<div class="footer__social--item">
-						<TwitterIcon/>
-					</div>
-					<div class="footer__social--item">
+					</a>
+					<a target="_blank" href="https://www.facebook.com/theluxurytransfers" class="footer__social--item">
 						<FacebookIcon/>
-					</div>
+					</a>
 				</div>
 			</div>
 			<div class="footer__col">

@@ -7,9 +7,11 @@
 	import CustomButton from "@/components/ui/CustomButton"
 
 	const changeBgColor = useEventBus('changeBgColor')
+	const setStep = useEventBus('setStep')
 	const store = useAdminAuthStore();
 	onMounted(() => {
 		changeBgColor.emit('white');
+		setStep.emit(1)
 	})
 </script>
 <template>
@@ -45,8 +47,11 @@
 </template>
 <style lang="scss" scoped>
 	form {
-		max-width: 536px;
+		max-width: 100%;
 		margin: 0 auto;
 		width: 100%;
+		@include breakpoint(xs) {
+			max-width: 536px;
+		}
 	}
 </style>

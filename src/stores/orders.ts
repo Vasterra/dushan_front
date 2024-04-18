@@ -38,6 +38,52 @@ export const useOrderStore = defineStore("orders", {
         return price.car_type
       })
     },
+    getOriginCoords(state) {
+      return {
+        location: {
+          /* eslint-disable */
+          // @ts-ignore
+          lat: state.pickup_location?.coords ? state.pickup_location?.coords[1] : 0,
+          /* eslint-disable */
+          // @ts-ignore
+          lng: state.pickup_location?.coords ? state.pickup_location?.coords[0] : 0,
+        },
+      }
+    },
+    getDestinationCoords(state) {
+      console.log(state.drop_off_location)
+      return {
+        location: {
+          /* eslint-disable */
+          // @ts-ignore
+          lat: state.drop_off_location?.coords ? state.drop_off_location?.coords[1] : 0,
+          /* eslint-disable */
+          // @ts-ignore
+          lng: state.drop_off_location?.coords ? state.drop_off_location?.coords[0] : 0,
+        },
+      }
+    },
+    getWaypointsCoords(state) {
+      /* eslint-disable */
+      // @ts-ignore
+      const coords = []
+      state.form.stops.map(function (stop) {
+        coords.push({
+          location: {
+            /* eslint-disable */
+            // @ts-ignore
+            lat: stop.coords[1] ?? 0,
+            /* eslint-disable */
+            // @ts-ignore
+            lng: stop.coords[0] ?? 0,
+          },
+          stopover: true,
+        })
+      })
+      /* eslint-disable */
+      // @ts-ignore
+      return coords
+    },
     getCoords(state) {
       const coords = []
       /* eslint-disable */

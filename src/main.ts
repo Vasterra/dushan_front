@@ -5,7 +5,7 @@ import { createPinia } from "pinia"
 import { createYmaps } from "vue-yandex-maps"
 import VCalendar from "v-calendar"
 import "v-calendar/style.css"
-import VueGoogleMaps from "@fawmi/vue-google-maps"
+// import VueGoogleMaps from "@fawmi/vue-google-maps"
 
 /* eslint-disable */
 createApp(App)
@@ -15,12 +15,15 @@ createApp(App)
       lang: "en_US",
     }),
   )
-  .use(VueGoogleMaps, {
-    load: {
-      key: "AIzaSyB24wu7Q3KzQrVyyeC9pWFnXhJDPhIurYg",
-    },
-  })
+  // .use(VueGoogleMaps, {
+  //   load: {
+  //     key: "AIzaSyCvh_BJm6nyE1cOFSlJ00Vhj0HNU1UQOzQ",
+  //     libraries: "drawing",
+  //   },
+  // })
   .use(VCalendar, {})
   .use(router)
   .use(createPinia())
   .mount("#app")
+
+// AIzaSyCvh_BJm6nyE1cOFSlJ00Vhj0HNU1UQOzQ

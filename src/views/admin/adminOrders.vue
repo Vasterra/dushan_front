@@ -9,6 +9,7 @@
 	import DropOffLocation from "@/components/admin/orders/DropOffLocation.vue"
 
 	const store = useAdminOrdersStore();
+	const setStep = useEventBus('setStep')
 	const changeBgColor = useEventBus('changeBgColor')
 	const tableColumns = ref([
 		{name: "Status", key: "status_id", component: StatusName},
@@ -26,6 +27,7 @@
 
 	onMounted(() => {
 		changeBgColor.emit('white');
+		setStep.emit(2);
 		store.getOrders()
 	})
 </script>

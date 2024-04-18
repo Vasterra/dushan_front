@@ -14,7 +14,7 @@
 
 	onMounted(async () => {
 		order.value = await store.getOrder(uuid.value)
-		setStep.emit(3)
+		setStep.emit(4)
 	})
 </script>
 <template>
